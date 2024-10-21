@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// Import statements with specific versioned contracts
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.8.0/contracts/token/ERC721/ERC721.sol";
+// Import ERC721URIStorage for handling token metadata
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.8.0/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.8.0/contracts/access/AccessControl.sol";
 
-contract RealEstateTokenization is ERC721, AccessControl {
+contract RealEstateTokenization is ERC721URIStorage, AccessControl {
     uint256 public tokenCounter;
 
     struct Property {
@@ -20,7 +20,7 @@ contract RealEstateTokenization is ERC721, AccessControl {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     // Event for property tokenization
-    event PropertyTokenized(uint256 tokenId, string propertyDetails, uint256 valuation);
+    event PropertyTokenized(uint256 tokenId, string propertyDetails, uint256 valuation, string tokenURI);
 
     constructor(address[] memory minters) ERC721("Estate Industries Real Estate", "EIRE") {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -38,9 +38,15 @@ contract RealEstateTokenization is ERC721, AccessControl {
         return super.supportsInterface(interfaceId);
     }
 
-    function tokenizeProperty(string memory _propertyDetails, uint256 _valuation) public onlyRole(MINTER_ROLE) {
+    // Tokenize a property and set tokenURI
+    function tokenizeProperty(
+        string memory _propertyDetails, 
+        uint256 _valuation, 
+        string memory _tokenURI  // Accept the tokenURI as a parameter
+    ) public onlyRole(MINTER_ROLE) {
         uint256 newTokenId = tokenCounter;
         _safeMint(msg.sender, newTokenId);
+        _setTokenURI(newTokenId, _tokenURI);  // Set the token URI
 
         Property memory newProperty = Property({
             tokenId: newTokenId,
@@ -51,9 +57,10 @@ contract RealEstateTokenization is ERC721, AccessControl {
         properties[newTokenId] = newProperty;
         tokenCounter += 1;
 
-        emit PropertyTokenized(newTokenId, _propertyDetails, _valuation);
+        emit PropertyTokenized(newTokenId, _propertyDetails, _valuation, _tokenURI);
     }
 
+    // Fetch property details based on token ID
     function getProperty(uint256 _tokenId) public view returns (Property memory) {
         require(_exists(_tokenId), "Property does not exist");
         return properties[_tokenId];
