@@ -5,11 +5,11 @@
 
 /* Root Variables for Colors */
 :root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --accent-color: #e74c3c;
-    --background-color: #ecf0f1;
-    --text-color: #2c3e50;
+    --primary-color: #2c3e50; /* Dark Blue */
+    --secondary-color: #3498db; /* Blue */
+    --accent-color: #e74c3c; /* Red */
+    --background-color: #ecf0f1; /* Light Gray */
+    --text-color: #2c3e50; /* Dark Gray */
 }
 
 /* Global Styles */
@@ -23,8 +23,7 @@ body {
 
 /* Header and Logo */
 header {
-    background-color: var(--primary-color);
-    color: #fff;
+    background-color: var(--primary-color); /* Dark Blue */
     padding: 20px 0;
 }
 
@@ -32,6 +31,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #fff; /* Ensure text color is white */
 }
 
 header img {
@@ -42,12 +42,14 @@ header img {
 header h1 {
     margin: 0;
     font-size: 2.5em;
+    color: #fff; /* Set text color to white */
+    font-family: 'Montserrat', sans-serif;
 }
 
 header .token-symbol {
     font-size: 0.6em;
     font-weight: normal;
-    color: #ecf0f1;
+    color: #ecf0f1; /* Slightly lighter color for "(EINX)" */
 }
 
 /* Container Styles */
@@ -67,16 +69,9 @@ header .token-symbol {
 }
 
 /* Headings */
-h1, h2 {
+h2 {
     font-family: 'Montserrat', sans-serif;
     color: var(--primary-color);
-}
-
-h1 {
-    text-align: left;
-}
-
-h2 {
     font-size: 1.8em;
     margin-top: 0;
     margin-bottom: 20px;
@@ -110,7 +105,7 @@ label {
 
 /* Buttons */
 button {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color); /* Blue */
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -138,7 +133,7 @@ button::after {
 }
 
 button:hover {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); /* Dark Blue */
 }
 
 button:hover::after {
@@ -167,7 +162,7 @@ button:hover::after {
 
 /* Footer */
 footer {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); /* Dark Blue */
     color: #fff;
     padding: 15px 0;
     text-align: center;
