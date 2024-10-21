@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// Import statements
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
+// Import statements with specific versioned contracts
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.8.0/contracts/token/ERC721/ERC721.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.8.0/contracts/access/AccessControl.sol";
 
 contract RealEstateTokenization is ERC721, AccessControl {
     uint256 public tokenCounter;
@@ -33,6 +33,11 @@ contract RealEstateTokenization is ERC721, AccessControl {
         }
     }
 
+    // Override supportsInterface to resolve the conflict
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool) {
+        return super.supportsInterface(interfaceId);
+    }
+
     function tokenizeProperty(string memory _propertyDetails, uint256 _valuation) public onlyRole(MINTER_ROLE) {
         uint256 newTokenId = tokenCounter;
         _safeMint(msg.sender, newTokenId);
@@ -50,12 +55,7 @@ contract RealEstateTokenization is ERC721, AccessControl {
     }
 
     function getProperty(uint256 _tokenId) public view returns (Property memory) {
-        require(exists(_tokenId), "Property does not exist");
+        require(_exists(_tokenId), "Property does not exist");
         return properties[_tokenId];
-    }
-
-    // Public function to check if a token exists
-    function exists(uint256 tokenId) public view returns (bool) {
-        return _exists(tokenId);
     }
 }
