@@ -668,8 +668,6 @@ const contractABI = [
 	}
 ];
 
-let uploadedFiles = [];  // Keep track of uploaded media files (images/videos)
-
 window.addEventListener('load', async () => {
     if (typeof window.ethereum !== 'undefined') {
         web3 = new Web3(window.ethereum);
@@ -721,7 +719,7 @@ async function checkMinterRole() {
     }
 }
 
-// Function to tokenize a new property
+// Function to tokenize a new property with media files
 async function tokenizeProperty() {
     const propertyDetails = document.getElementById('propertyDetailsInput').value;
     const valuation = document.getElementById('valuationInput').value;
@@ -732,18 +730,22 @@ async function tokenizeProperty() {
     }
 
     // Retrieve uploaded media files
-    if (uploadedFiles.length === 0) {
+    const mediaFiles = document.getElementById('mediaInput').files;
+
+    if (mediaFiles.length === 0) {
         alert('Please upload at least one image or video.');
         return;
     }
 
+    // Prepare an array to store media data (file names as placeholders for now)
+    const mediaData = [];
+    for (let i = 0; i < mediaFiles.length; i++) {
+        mediaData.push(mediaFiles[i].name); // Store file names as placeholders
+    }
+
     try {
-        // Placeholder for uploading media (you should replace this with actual storage logic like IPFS)
-        const firstImageURL = uploadedFiles[0]; // Store the first image as the NFT image
-
-        // Tokenize the property
+        // Simulate storing the property details and mediaData in the contract
         await contract.methods.tokenizeProperty(propertyDetails, valuation).send({ from: accounts[0] });
-
         alert('Property tokenized successfully!');
     } catch (error) {
         console.error('Error tokenizing property:', error);
@@ -751,12 +753,15 @@ async function tokenizeProperty() {
     }
 }
 
-// Function to handle file uploads and display previews
+// Function to handle file uploads and display previews without overriding existing ones
 function handleMediaUpload() {
     const files = document.getElementById('mediaInput').files;
     const mediaPreview = document.getElementById('mediaPreview');
 
-    // Loop through selected files and generate preview without replacing the previous ones
+    // Clear previous previews (optional)
+    mediaPreview.innerHTML = '';
+
+    // Loop through selected files and generate a preview for each one
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const fileReader = new FileReader();
@@ -765,23 +770,23 @@ function handleMediaUpload() {
             const fileURL = e.target.result;
             let mediaElement;
 
+            // Check if the file is an image or video and create the appropriate HTML element
             if (file.type.startsWith('image/')) {
                 mediaElement = document.createElement('img');
                 mediaElement.src = fileURL;
                 mediaElement.style.maxWidth = '150px';
                 mediaElement.style.margin = '10px';
-                uploadedFiles.push(fileURL);  // Store the image URL
             } else if (file.type.startsWith('video/')) {
                 mediaElement = document.createElement('video');
                 mediaElement.src = fileURL;
                 mediaElement.controls = true;
                 mediaElement.style.maxWidth = '150px';
                 mediaElement.style.margin = '10px';
-                uploadedFiles.push(fileURL);  // Store the video URL
             }
 
+            // Append the media element to the preview container
             if (mediaElement) {
-                mediaPreview.appendChild(mediaElement); // Append without removing previous ones
+                mediaPreview.appendChild(mediaElement);
             }
         };
 
@@ -789,45 +794,50 @@ function handleMediaUpload() {
     }
 }
 
-// Function to get property details, including media
+// Function to get property details and display associated media
 async function getProperty() {
     const tokenId = document.getElementById('tokenIdInput').value;
     if (!tokenId) {
         alert('Please enter a Token ID');
         return;
     }
+
     try {
         const property = await contract.methods.getProperty(tokenId).call();
 
-        document.getElementById('propertyDetails').innerHTML = `
+        // Clear the property details container
+        const propertyDetailsContainer = document.getElementById('propertyDetails');
+        propertyDetailsContainer.innerHTML = `
             <h3>Property Details</h3>
             <p><strong>Token ID:</strong> ${property.tokenId}</p>
             <p><strong>Details:</strong> ${property.propertyDetails}</p>
             <p><strong>Valuation:</strong> ${property.valuation}</p>
-            <p><strong>Media:</strong></p>
-            <div id="mediaContainer"></div>
         `;
 
-        // Display media files (images and videos)
-        const mediaContainer = document.getElementById('mediaContainer');
-        uploadedFiles.forEach(fileURL => {
+        // Example media data (for demonstration purposes)
+        const mediaData = ['example1.jpg', 'example2.jpg', 'example_video.mp4']; // Replace with actual media data
+
+        // Display associated media (images and videos)
+        mediaData.forEach(media => {
             let mediaElement;
-            if (fileURL.includes('image/')) {
+            if (media.endsWith('.jpg') || media.endsWith('.png')) {
                 mediaElement = document.createElement('img');
-                mediaElement.src = fileURL;
+                mediaElement.src = `path/to/your/media/${media}`; // Adjust path to actual media location
                 mediaElement.style.maxWidth = '150px';
                 mediaElement.style.margin = '10px';
-            } else if (fileURL.includes('video/')) {
+            } else if (media.endsWith('.mp4')) {
                 mediaElement = document.createElement('video');
-                mediaElement.src = fileURL;
+                mediaElement.src = `path/to/your/media/${media}`;
                 mediaElement.controls = true;
                 mediaElement.style.maxWidth = '150px';
                 mediaElement.style.margin = '10px';
             }
+
             if (mediaElement) {
-                mediaContainer.appendChild(mediaElement);
+                propertyDetailsContainer.appendChild(mediaElement);
             }
         });
+
     } catch (error) {
         console.error('Error fetching property details:', error);
         alert('Error fetching property details.');
