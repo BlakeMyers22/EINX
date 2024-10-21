@@ -668,6 +668,8 @@ const contractABI = [
 	}
 ];
 
+let uploadedFiles = [];  // Keep track of uploaded media files (images/videos)
+
 window.addEventListener('load', async () => {
     if (typeof window.ethereum !== 'undefined') {
         web3 = new Web3(window.ethereum);
@@ -730,21 +732,18 @@ async function tokenizeProperty() {
     }
 
     // Retrieve uploaded media files
-    const mediaFiles = document.getElementById('mediaInput').files;
-
-    if (mediaFiles.length === 0) {
+    if (uploadedFiles.length === 0) {
         alert('Please upload at least one image or video.');
         return;
     }
 
-    // You can modify this part to upload media files to a storage service like IPFS
-    const mediaData = [];
-    for (let i = 0; i < mediaFiles.length; i++) {
-        mediaData.push(mediaFiles[i].name); // Placeholder for the media filenames
-    }
-
     try {
+        // Placeholder for uploading media (you should replace this with actual storage logic like IPFS)
+        const firstImageURL = uploadedFiles[0]; // Store the first image as the NFT image
+
+        // Tokenize the property
         await contract.methods.tokenizeProperty(propertyDetails, valuation).send({ from: accounts[0] });
+
         alert('Property tokenized successfully!');
     } catch (error) {
         console.error('Error tokenizing property:', error);
@@ -757,10 +756,7 @@ function handleMediaUpload() {
     const files = document.getElementById('mediaInput').files;
     const mediaPreview = document.getElementById('mediaPreview');
 
-    // Clear previous previews
-    mediaPreview.innerHTML = '';
-
-    // Loop through selected files and generate preview
+    // Loop through selected files and generate preview without replacing the previous ones
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const fileReader = new FileReader();
@@ -774,16 +770,18 @@ function handleMediaUpload() {
                 mediaElement.src = fileURL;
                 mediaElement.style.maxWidth = '150px';
                 mediaElement.style.margin = '10px';
+                uploadedFiles.push(fileURL);  // Store the image URL
             } else if (file.type.startsWith('video/')) {
                 mediaElement = document.createElement('video');
                 mediaElement.src = fileURL;
                 mediaElement.controls = true;
                 mediaElement.style.maxWidth = '150px';
                 mediaElement.style.margin = '10px';
+                uploadedFiles.push(fileURL);  // Store the video URL
             }
 
             if (mediaElement) {
-                mediaPreview.appendChild(mediaElement);
+                mediaPreview.appendChild(mediaElement); // Append without removing previous ones
             }
         };
 
@@ -791,7 +789,7 @@ function handleMediaUpload() {
     }
 }
 
-// Function to get property details
+// Function to get property details, including media
 async function getProperty() {
     const tokenId = document.getElementById('tokenIdInput').value;
     if (!tokenId) {
@@ -800,12 +798,36 @@ async function getProperty() {
     }
     try {
         const property = await contract.methods.getProperty(tokenId).call();
+
         document.getElementById('propertyDetails').innerHTML = `
             <h3>Property Details</h3>
             <p><strong>Token ID:</strong> ${property.tokenId}</p>
             <p><strong>Details:</strong> ${property.propertyDetails}</p>
             <p><strong>Valuation:</strong> ${property.valuation}</p>
+            <p><strong>Media:</strong></p>
+            <div id="mediaContainer"></div>
         `;
+
+        // Display media files (images and videos)
+        const mediaContainer = document.getElementById('mediaContainer');
+        uploadedFiles.forEach(fileURL => {
+            let mediaElement;
+            if (fileURL.includes('image/')) {
+                mediaElement = document.createElement('img');
+                mediaElement.src = fileURL;
+                mediaElement.style.maxWidth = '150px';
+                mediaElement.style.margin = '10px';
+            } else if (fileURL.includes('video/')) {
+                mediaElement = document.createElement('video');
+                mediaElement.src = fileURL;
+                mediaElement.controls = true;
+                mediaElement.style.maxWidth = '150px';
+                mediaElement.style.margin = '10px';
+            }
+            if (mediaElement) {
+                mediaContainer.appendChild(mediaElement);
+            }
+        });
     } catch (error) {
         console.error('Error fetching property details:', error);
         alert('Error fetching property details.');
@@ -826,4 +848,3 @@ document.getElementById('connectWalletButton').addEventListener('click', async (
         alert('Please install MetaMask to use this DApp!');
     }
 });
-
