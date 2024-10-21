@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,12 +39,18 @@
                     <label for="valuationInput">Property Valuation:</label>
                     <input type="number" id="valuationInput" placeholder="Enter property valuation">
                 </div>
+                <div class="form-group">
+                    <label for="mediaInput">Upload Images and Videos:</label>
+                    <input type="file" id="mediaInput" accept="image/*,video/*" multiple>
+                </div>
+                <!-- Preview Container for Images and Videos -->
+                <div id="mediaPreview" style="margin-top: 20px;"></div>
                 <button type="button" id="tokenizePropertyButton"><i class="fas fa-plus-circle"></i> Tokenize Property</button>
             </form>
         </div>
 
         <!-- Get Property Details Section -->
-        <div id="getPropertySection" class="card">
+        <div id="getPropertySection" class="card" style="display: none;">
             <h2>Get Property Details</h2>
             <form>
                 <div class="form-group">
