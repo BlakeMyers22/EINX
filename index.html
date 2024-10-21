@@ -6,6 +6,8 @@
     <title>Estate Industries</title>
     <!-- Include MetaMask's Web3.js library -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Link to your CSS file -->
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -20,26 +22,36 @@
     <div class="container">
         <!-- Connect Wallet Section -->
         <div id="walletSection" class="card">
-            <button id="connectWalletButton">Connect Wallet</button>
+            <button id="connectWalletButton"><i class="fas fa-wallet"></i> Connect Wallet</button>
             <p id="walletAddress"></p>
         </div>
 
         <!-- Tokenize Property Section -->
         <div id="tokenizePropertySection" class="card" style="display: none;">
             <h2>Tokenize a New Property</h2>
-            <label for="propertyDetailsInput">Property Details (e.g., URI):</label>
-            <input type="text" id="propertyDetailsInput" placeholder="Enter property details or URI">
-            <label for="valuationInput">Property Valuation:</label>
-            <input type="number" id="valuationInput" placeholder="Enter property valuation">
-            <button id="tokenizePropertyButton">Tokenize Property</button>
+            <form>
+                <div class="form-group">
+                    <label for="propertyDetailsInput">Property Details (e.g., URI):</label>
+                    <input type="text" id="propertyDetailsInput" placeholder="Enter property details or URI">
+                </div>
+                <div class="form-group">
+                    <label for="valuationInput">Property Valuation:</label>
+                    <input type="number" id="valuationInput" placeholder="Enter property valuation">
+                </div>
+                <button type="button" id="tokenizePropertyButton"><i class="fas fa-plus-circle"></i> Tokenize Property</button>
+            </form>
         </div>
 
         <!-- Get Property Details Section -->
         <div id="getPropertySection" class="card" style="display: none;">
             <h2>Get Property Details</h2>
-            <label for="tokenIdInput">Token ID:</label>
-            <input type="number" id="tokenIdInput" placeholder="Enter Token ID">
-            <button id="getPropertyButton">Get Property</button>
+            <form>
+                <div class="form-group">
+                    <label for="tokenIdInput">Token ID:</label>
+                    <input type="number" id="tokenIdInput" placeholder="Enter Token ID">
+                </div>
+                <button type="button" id="getPropertyButton"><i class="fas fa-search"></i> Get Property</button>
+            </form>
             <div id="propertyDetails"></div>
         </div>
     </div>
