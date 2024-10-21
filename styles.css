@@ -21,21 +21,33 @@ body {
     color: var(--text-color);
 }
 
-h1, h2 {
-    font-family: 'Montserrat', sans-serif;
-    color: var(--primary-color);
-    text-align: center;
+/* Header and Logo */
+header {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 20px 0;
 }
 
-h1 {
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header img {
+    width: 80px;
+    margin-right: 20px;
+}
+
+header h1 {
+    margin: 0;
     font-size: 2.5em;
-    margin-top: 20px;
 }
 
-h2 {
-    font-size: 1.8em;
-    margin-top: 40px;
-    margin-bottom: 20px;
+header .token-symbol {
+    font-size: 0.6em;
+    font-weight: normal;
+    color: #ecf0f1;
 }
 
 /* Container Styles */
@@ -52,6 +64,23 @@ h2 {
     margin-top: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h1, h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-color);
+}
+
+h1 {
+    text-align: left;
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 /* Input Fields */
@@ -136,24 +165,6 @@ button:hover::after {
     font-family: 'Montserrat', sans-serif;
 }
 
-/* Header and Logo */
-header {
-    background-color: var(--primary-color);
-    color: #fff;
-    padding: 20px 0;
-}
-
-header h1 {
-    margin: 10px 0 0 0;
-    font-size: 2.5em;
-}
-
-header img {
-    display: block;
-    margin: 0 auto;
-    width: 80px;
-}
-
 /* Footer */
 footer {
     background-color: var(--primary-color);
@@ -170,7 +181,17 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    h1 {
+    .header-content {
+        flex-direction: column;
+    }
+
+    header img {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    header h1 {
+        text-align: center;
         font-size: 2em;
     }
 
