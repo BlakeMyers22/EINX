@@ -4,7 +4,7 @@ let web3;
 let contract;
 let accounts;
 
-const contractAddress = '0xBeD1aA1844405F7626d022F7c66E6e98b5E6ba5f'; // Update with your deployed contract address
+const contractAddress = '0x84e45a65C7Ca73529984bB383b02D6a6cB461748';
 const contractABI = [
 	{
 		"inputs": [
@@ -123,12 +123,6 @@ const contractABI = [
 				"internalType": "uint256",
 				"name": "valuation",
 				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "tokenURI",
-				"type": "string"
 			}
 		],
 		"name": "PropertyTokenized",
@@ -325,11 +319,6 @@ const contractABI = [
 				"internalType": "uint256",
 				"name": "_valuation",
 				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_tokenURI",
-				"type": "string"
 			}
 		],
 		"name": "tokenizeProperty",
@@ -677,7 +666,7 @@ const contractABI = [
 		"stateMutability": "view",
 		"type": "function"
 	}
-]; // Add your contract ABI here
+];
 
 let uploadedFiles = [];  // Keep track of uploaded media files (images/videos)
 
@@ -742,19 +731,20 @@ async function tokenizeProperty() {
         return;
     }
 
-    // Ensure at least one file is uploaded
+    // Retrieve uploaded media files
     if (uploadedFiles.length === 0) {
         alert('Please upload at least one image or video.');
         return;
     }
 
-    // Use the first uploaded file as the tokenURI (thumbnail or small image URL)
-    const firstImageURL = uploadedFiles[0];  // This should be an IPFS link or small thumbnail URL
-
     try {
-        // Call the contract function to tokenize the property and set the tokenURI (thumbnail)
-        await contract.methods.tokenizeProperty(propertyDetails, valuation, firstImageURL).send({ from: accounts[0] });
-        alert('Property tokenized successfully with thumbnail!');
+        // Placeholder for uploading media (you should replace this with actual storage logic like IPFS)
+        const firstImageURL = uploadedFiles[0]; // Store the first image as the NFT image
+
+        // Tokenize the property
+        await contract.methods.tokenizeProperty(propertyDetails, valuation).send({ from: accounts[0] });
+
+        alert('Property tokenized successfully!');
     } catch (error) {
         console.error('Error tokenizing property:', error);
         alert('Error tokenizing property.');
