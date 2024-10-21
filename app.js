@@ -4,7 +4,7 @@ let web3;
 let contract;
 let accounts;
 
-const contractAddress = '0x74D2C50c59DbEda31B2609F2d4683A7CCa41c3a1';
+const contractAddress = '0x24c1A7F0bCA70C780b776643E218cf2Bd98955d3';
 const contractABI = [
 	{
 		"inputs": [
