@@ -50,7 +50,12 @@ contract RealEstateTokenization is ERC721, AccessControl {
     }
 
     function getProperty(uint256 _tokenId) public view returns (Property memory) {
-        require(_exists(_tokenId), "Property does not exist");
+        require(exists(_tokenId), "Property does not exist");
         return properties[_tokenId];
+    }
+
+    // Public function to check if a token exists
+    function exists(uint256 tokenId) public view returns (bool) {
+        return _exists(tokenId);
     }
 }
