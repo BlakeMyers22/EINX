@@ -814,20 +814,24 @@ async function getProperty() {
             <p><strong>Valuation:</strong> ${property.valuation}</p>
         `;
 
-        // Example media data (for demonstration purposes)
-        const mediaData = ['example1.jpg', 'example2.jpg', 'example_video.mp4']; // Replace with actual media data
+        // Example media data (replace with actual media URLs)
+        const mediaData = ['image1.jpg', 'image2.jpg', 'video1.mp4']; // Replace with correct paths
 
         // Display associated media (images and videos)
         mediaData.forEach(media => {
             let mediaElement;
+            const mediaUrl = `path/to/your/media/${media}`; // Update to the correct media path or URL
+            console.log('Media URL:', mediaUrl);
+
             if (media.endsWith('.jpg') || media.endsWith('.png')) {
                 mediaElement = document.createElement('img');
-                mediaElement.src = `path/to/your/media/${media}`; // Adjust path to actual media location
+                mediaElement.src = mediaUrl;
+                mediaElement.alt = 'Property Image';
                 mediaElement.style.maxWidth = '150px';
                 mediaElement.style.margin = '10px';
             } else if (media.endsWith('.mp4')) {
                 mediaElement = document.createElement('video');
-                mediaElement.src = `path/to/your/media/${media}`;
+                mediaElement.src = mediaUrl;
                 mediaElement.controls = true;
                 mediaElement.style.maxWidth = '150px';
                 mediaElement.style.margin = '10px';
