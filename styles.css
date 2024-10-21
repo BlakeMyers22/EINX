@@ -58,7 +58,7 @@ h2 {
 input, textarea {
     width: 100%;
     padding: 15px;
-    margin: 10px 0 20px;
+    margin: 5px 0 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 16px;
@@ -90,10 +90,30 @@ button {
     cursor: pointer;
     transition: background-color 0.3s;
     font-family: 'Roboto', sans-serif;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+button::after {
+    content: "";
+    position: absolute;
+    left: -50%;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: skewX(-45deg);
+    transition: width 0.5s;
+    z-index: -1;
 }
 
 button:hover {
     background-color: var(--primary-color);
+}
+
+button:hover::after {
+    width: 200%;
 }
 
 /* Wallet Address */
@@ -124,14 +144,14 @@ header {
 }
 
 header h1 {
-    margin: 0;
+    margin: 10px 0 0 0;
     font-size: 2.5em;
 }
 
 header img {
     display: block;
     margin: 0 auto;
-    width: 100px;
+    width: 80px;
 }
 
 /* Footer */
@@ -141,6 +161,11 @@ footer {
     padding: 15px 0;
     text-align: center;
     margin-top: 50px;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
 }
 
 /* Responsive Design */
