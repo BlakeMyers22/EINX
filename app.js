@@ -693,6 +693,9 @@ window.addEventListener('load', async () => {
             document.getElementById('tokenizePropertyButton').addEventListener('click', tokenizeProperty);
             document.getElementById('getPropertyButton').addEventListener('click', getProperty);
 
+            // Add event listener for media input
+            document.getElementById('mediaInput').addEventListener('change', handleMediaUpload);
+
         } catch (error) {
             console.error(error);
             alert('User denied account access or an error occurred.');
@@ -726,12 +729,65 @@ async function tokenizeProperty() {
         return;
     }
 
+    // Retrieve uploaded media files
+    const mediaFiles = document.getElementById('mediaInput').files;
+
+    if (mediaFiles.length === 0) {
+        alert('Please upload at least one image or video.');
+        return;
+    }
+
+    // You can modify this part to upload media files to a storage service like IPFS
+    const mediaData = [];
+    for (let i = 0; i < mediaFiles.length; i++) {
+        mediaData.push(mediaFiles[i].name); // Placeholder for the media filenames
+    }
+
     try {
         await contract.methods.tokenizeProperty(propertyDetails, valuation).send({ from: accounts[0] });
         alert('Property tokenized successfully!');
     } catch (error) {
         console.error('Error tokenizing property:', error);
         alert('Error tokenizing property.');
+    }
+}
+
+// Function to handle file uploads and display previews
+function handleMediaUpload() {
+    const files = document.getElementById('mediaInput').files;
+    const mediaPreview = document.getElementById('mediaPreview');
+
+    // Clear previous previews
+    mediaPreview.innerHTML = '';
+
+    // Loop through selected files and generate preview
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const fileReader = new FileReader();
+
+        fileReader.onload = function (e) {
+            const fileURL = e.target.result;
+            let mediaElement;
+
+            if (file.type.startsWith('image/')) {
+                mediaElement = document.createElement('img');
+                mediaElement.src = fileURL;
+                mediaElement.style.maxWidth = '150px';
+                mediaElement.style.margin = '10px';
+            } else if (file.type.startsWith('video/')) {
+                mediaElement = document.createElement('video');
+                mediaElement.src = fileURL;
+                mediaElement.controls = true;
+                mediaElement.style.maxWidth = '150px';
+                mediaElement.style.margin = '10px';
+            }
+
+            if (mediaElement) {
+                mediaPreview.appendChild(mediaElement);
+            }
+        };
+
+        fileReader.readAsDataURL(file);
     }
 }
 
@@ -770,3 +826,4 @@ document.getElementById('connectWalletButton').addEventListener('click', async (
         alert('Please install MetaMask to use this DApp!');
     }
 });
+
