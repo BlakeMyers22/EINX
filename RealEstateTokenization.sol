@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// Import ERC721URIStorage for handling token metadata (URI)
+// Import ERC721URIStorage for handling token metadata
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.8.0/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.8.0/contracts/access/AccessControl.sol";
 
@@ -38,15 +38,15 @@ contract RealEstateTokenization is ERC721URIStorage, AccessControl {
         return super.supportsInterface(interfaceId);
     }
 
-    // Tokenize a property with a reference to a small image (e.g., a thumbnail)
+    // Tokenize a property and set tokenURI
     function tokenizeProperty(
         string memory _propertyDetails, 
         uint256 _valuation, 
-        string memory _tokenURI  // Accept the tokenURI for the thumbnail or IPFS link
+        string memory _tokenURI  // Accept the tokenURI as a parameter
     ) public onlyRole(MINTER_ROLE) {
         uint256 newTokenId = tokenCounter;
         _safeMint(msg.sender, newTokenId);
-        _setTokenURI(newTokenId, _tokenURI);  // Set the token URI for the thumbnail or small image
+        _setTokenURI(newTokenId, _tokenURI);  // Set the token URI
 
         Property memory newProperty = Property({
             tokenId: newTokenId,
