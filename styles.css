@@ -178,42 +178,4 @@ button:hover::after {
 /* Footer */
 footer {
     background-color: var(--primary-color); /* Dark Blue */
-    color: #fff;
-    padding: 15px 0;
-    text-align: center;
-    margin-top: 50px;
-}
-
-/* Form Group */
-.form-group {
-    margin-bottom: 20px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .header-content {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    header img {
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
-
-    header h1 {
-        font-size: 2em;
-    }
-
-    h2 {
-        font-size: 1.5em;
-    }
-
-    .container {
-        padding: 15px;
-    }
-
-    button {
-        width: 100%;
-    }
-}
+    color: #
