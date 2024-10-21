@@ -2,16 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estate Industries (EINX)</title>
-    
-    <!-- Include Web3.js Library -->
+    <!-- Include MetaMask's Web3.js library -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
-    
     <!-- Include Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Link to custom styles -->
+    <!-- Link to your CSS file -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -40,14 +36,15 @@
                     <input type="text" id="propertyDetailsInput" placeholder="Enter property details or URI">
                 </div>
                 <div class="form-group">
-                    <label for="valuationInput">Property Valuation (USD):</label>
+                    <label for="valuationInput">Property Valuation:</label>
                     <input type="number" id="valuationInput" placeholder="Enter property valuation">
                 </div>
                 <div class="form-group">
-                    <label for="mediaInput">Upload Property Images/Videos:</label>
+                    <label for="mediaInput">Upload Images and Videos:</label>
                     <input type="file" id="mediaInput" accept="image/*,video/*" multiple>
                 </div>
-                <div id="mediaPreview" class="media-preview"></div>
+                <!-- Preview Container for Images and Videos -->
+                <div id="mediaPreview" style="margin-top: 20px;"></div>
                 <button type="button" id="tokenizePropertyButton"><i class="fas fa-plus-circle"></i> Tokenize Property</button>
             </form>
         </div>
