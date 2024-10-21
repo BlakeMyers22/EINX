@@ -4,7 +4,7 @@ let web3;
 let contract;
 let accounts;
 
-const contractAddress = '0x2242B39FCB53e29365b6791ebB13E4455898742B';
+const contractAddress = '0xBeD1aA1844405F7626d022F7c66E6e98b5E6ba5f'; // Update with your deployed contract address
 const contractABI = [
 	{
 		"inputs": [
@@ -677,7 +677,7 @@ const contractABI = [
 		"stateMutability": "view",
 		"type": "function"
 	}
-];
+]; // Add your contract ABI here
 
 let uploadedFiles = [];  // Keep track of uploaded media files (images/videos)
 
@@ -748,12 +748,13 @@ async function tokenizeProperty() {
         return;
     }
 
-    const firstImageURL = uploadedFiles[0];  // Use the first uploaded file as the tokenURI (assume this is an image URL)
+    // Use the first uploaded file as the tokenURI (thumbnail or small image URL)
+    const firstImageURL = uploadedFiles[0];  // This should be an IPFS link or small thumbnail URL
 
     try {
-        // Call the contract function to tokenize the property and set the tokenURI
+        // Call the contract function to tokenize the property and set the tokenURI (thumbnail)
         await contract.methods.tokenizeProperty(propertyDetails, valuation, firstImageURL).send({ from: accounts[0] });
-        alert('Property tokenized successfully with image as NFT!');
+        alert('Property tokenized successfully with thumbnail!');
     } catch (error) {
         console.error('Error tokenizing property:', error);
         alert('Error tokenizing property.');
